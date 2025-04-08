@@ -6,7 +6,6 @@ export const HomePage = (): JSX.Element => {
 
   return (
     <main className="relative w-full h-screen bg-gray-900">
-      
       <NavBar />
     </main>
   );

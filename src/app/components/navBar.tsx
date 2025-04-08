@@ -1,7 +1,5 @@
 import React from "react";
-
-// mettre des icones
-
+import { FaStickyNote, FaBox, FaUser } from "react-icons/fa";
 function NavBar() {
     return (
         <header className="bg-gray-800 text-white">
@@ -18,18 +16,18 @@ function NavBar() {
                 {/* Right Section: Functionalities */}
                 <ul className="flex space-x-6">
                     <li>
-                        <a href="/Notes" className="hover:text-gray-400">
-                            Take Notes
+                        <a href="/Notes" className="hover:text-gray-400 flex items-center space-x-2">
+                            <FaStickyNote /> <span>Take Notes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/LeitnerBox" className="hover:text-gray-400">
-                            Leitner Box
+                        <a href="/LeitnerBox" className="hover:text-gray-400 flex items-center space-x-2">
+                            <FaBox /> <span>Leitner Box</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/Profile" className="hover:text-gray-400">
-                            Profile
+                        <a href="/Profile" className="hover:text-gray-400 flex items-center space-x-2">
+                            <FaUser /> <span>Profile</span>
                         </a>
                     </li>
                 </ul>
