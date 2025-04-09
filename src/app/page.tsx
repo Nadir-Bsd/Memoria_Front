@@ -1,6 +1,6 @@
 import React, { JSX } from "react";
 
-export const HomePage = (): JSX.Element => {
+const HomePage = (): JSX.Element => {
 
 
   return (

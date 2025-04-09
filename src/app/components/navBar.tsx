@@ -4,16 +4,19 @@ import Link from "next/link";
 
 function NavBar() {
     return (
-        <header className="bg-gray-800 text-white">
+        <header className="bg-black text-white">
             <nav className="container mx-auto flex justify-between items-center py-4">
                 {/* Left Section: Logo and Countdown */}
                 <div className="flex items-center space-x-6">
                     <Link href="/" className="text-2xl font-bold">
                         <div className="text-lg font-bold">Memoria</div>
                     </Link>
-                    {/* a travailer */}
-                    <Link href="/Pomodoro" className="text-sm font-mono bg-gray-700 px-3 py-1 rounded">
-                        <div className="text-sm font-mono bg-gray-700 px-3 py-1 rounded">
+                    <Link
+                        href="/Pomodoro"
+                        className="text-sm font-mono bg-gray-900 px-3 py-1 rounded"
+                    >
+                        <div className="text-sm font-mono bg-gray-900 px-3 py-1 rounded">
+                            {/* a travailer */}
                             11:11
                         </div>
                     </Link>
