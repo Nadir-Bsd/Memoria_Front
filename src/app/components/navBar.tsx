@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function NavBar() {
     return (
-        <header className="bg-black text-white">
+        <header className="bg-black text-white w-full">
             <nav className="container mx-auto flex justify-between items-center py-4">
                 {/* Left Section: Logo and Countdown */}
                 <div className="flex items-center space-x-6">
