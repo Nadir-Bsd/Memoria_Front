@@ -20,6 +20,7 @@ const Timer = ({
         hasPlusFiveBeenUsed,
         hasPlusTenBeenUsed,
         addTime,
+        resteTime,
     } = useTimer();
 
     const router = useRouter();
@@ -88,7 +89,7 @@ const Timer = ({
 
             {/* Timer Controls - only shown in full mode (if it's false)*/}
             {!isCompact && (
-                <div className="w-[60%] items-center mt-10 mb-8 relative z-10">
+                <div className="w-[100%] flex justify-between items-center mt-10 mb-8 relative z-10">
                     <div className="flex gap-5">
                         {addTimePossible.map((time) => (
                             <button
@@ -115,6 +116,14 @@ const Timer = ({
                             </button>
                         ))}
                     </div>
+                    <button 
+                        onClick={(e) => {
+                            e.stopPropagation(); // Empêche le déclenchement du click du timer
+                            resteTime();
+                        }}
+                        className="w-[90px] h-[39px] bg-gray-700 text-white rounded-[5px] hover:bg-gray-600">
+                        reste
+                    </button>
                 </div>
             )}
 

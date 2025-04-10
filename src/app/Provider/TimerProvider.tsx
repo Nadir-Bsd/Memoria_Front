@@ -13,6 +13,7 @@ interface TimerContextType {
   hasPlusTenBeenUsed: boolean;
   setHasPlusTenBeenUsed: (value: boolean) => void;
   addTime: (minutes: number) => void;
+  resteTime: () => void;
 }
 
 const TimerContext = createContext<TimerContextType | undefined>(undefined);
@@ -50,6 +51,9 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
       setIsBreak((prev) => !prev);
       // Set time for next phase
       setTimeLeft(!isBreak ? 5 * 60 : 25 * 60);
+      // reste hasPlusFiveBeenUsed and hasPlusTenBeenUsed to false
+      setHasPlusFiveBeenUsed(false);
+      setHasPlusTenBeenUsed(false);
     }
 
     // Cleanup function
@@ -88,6 +92,18 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
     // Add the minutes
     setTimeLeft((prev) => prev + minutes * 60);
   };
+
+  const resteTime = () => {
+    setTimeLeft(25 * 60);
+    setIsRunning(false);
+    setIsBreak(false);
+    setHasPlusFiveBeenUsed(false);
+    setHasPlusTenBeenUsed(false);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }
 
   // Persistance des données dans le localStorage
   useEffect(() => {
@@ -132,7 +148,8 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
     setHasPlusFiveBeenUsed,
     hasPlusTenBeenUsed,
     setHasPlusTenBeenUsed,
-    addTime
+    addTime,
+    resteTime
   };
 
   return <TimerContext.Provider value={value}>{children}</TimerContext.Provider>;
