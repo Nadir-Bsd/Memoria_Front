@@ -1,6 +1,7 @@
 import React from "react";
 import { FaStickyNote, FaBox, FaUser } from "react-icons/fa";
 import Link from "next/link";
+import Timer from "@/components/Timer";
 
 function NavBar() {
     return (
@@ -11,15 +12,7 @@ function NavBar() {
                     <Link href="/" className="text-2xl font-bold">
                         <div className="text-lg font-bold">Memoria</div>
                     </Link>
-                    <Link
-                        href="/Pomodoro"
-                        className="text-sm font-mono bg-gray-900 px-3 py-1 rounded"
-                    >
-                        <div className="text-sm font-mono bg-gray-900 px-3 py-1 rounded">
-                            {/* a travailer */}
-                            11:11
-                        </div>
-                    </Link>
+                    <Timer isCompact={true} />
                 </div>
 
                 {/* Right Section: Functionalities */}
