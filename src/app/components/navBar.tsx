@@ -1,9 +1,9 @@
-import React from "react";
+import { JSX } from "react";
 import { FaStickyNote, FaBox, FaUser } from "react-icons/fa";
 import Link from "next/link";
 import Timer from "@/components/Timer";
 
-function NavBar() {
+const NavBar = ({}): JSX.Element => {
     return (
         <header className="bg-black text-white w-full">
             <nav className="container mx-auto flex justify-between items-center py-4">
