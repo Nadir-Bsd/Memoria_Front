@@ -116,12 +116,13 @@ const Timer = ({
                             </button>
                         ))}
                     </div>
-                    <button 
+                    <button
                         onClick={(e) => {
                             e.stopPropagation(); // Empêche le déclenchement du click du timer
                             resteTime();
                         }}
-                        className="w-[90px] h-[39px] bg-gray-700 text-white rounded-[5px] hover:bg-gray-600">
+                        className="w-[90px] h-[39px] bg-gray-700 text-white rounded-[5px] hover:bg-gray-600"
+                    >
                         reste
                     </button>
                 </div>

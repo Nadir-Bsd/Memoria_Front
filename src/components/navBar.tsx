@@ -45,6 +45,6 @@ const NavBar = ({}): JSX.Element => {
             </nav>
         </header>
     );
-}
+};
 
 export default NavBar;

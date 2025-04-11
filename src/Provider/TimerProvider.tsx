@@ -29,6 +29,7 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
   // Référence pour le timer
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  //! SERVICE
   // Gérer le décompte du timer
   useEffect(() => {
     // Clear any existing timer when effect re-runs
@@ -105,6 +106,8 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+
+  //! PROVIDER
   // Persistance des données dans le localStorage
   useEffect(() => {
     // Charger l'état depuis localStorage au montage du composant
@@ -155,6 +158,8 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
   return <TimerContext.Provider value={value}>{children}</TimerContext.Provider>;
 };
 
+
+//! HOOK
 // Hook personnalisé pour utiliser le contexte
 export const useTimer = () => {
   const context = useContext(TimerContext);
