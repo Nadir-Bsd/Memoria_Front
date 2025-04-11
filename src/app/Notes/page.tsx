@@ -1,16 +1,30 @@
+"use client";
+
 import Plus from "@/components/Plus";
 import fetchNotes from "@/Provider/NotesProvider";
-import { JSX } from "react";
+import { JSX, useEffect, useState } from "react";
 
 const Notes = (): JSX.Element => {
-    const { notes, loading, error } = fetchNotes();
+    const [notes, setNotes] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await fetchNotes();
+                setNotes(data);
+            } catch (err) {
+                setError("Failed to fetch notes");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
     
 
     return (
@@ -21,7 +35,7 @@ const Notes = (): JSX.Element => {
                 <button>New</button>
             </div>
             {/* if the user already have note show notes else show Plus component */}
-            {notes ? (
+            {notes.length > 0 ? (
                 <div>
                     {/* map notes here */}
                     {notes.map((note) => (
