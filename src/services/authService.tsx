@@ -19,7 +19,7 @@ class AuthService {
           "Accept": "application/json"
         },
         body: JSON.stringify({
-          username: data.email, // LexikJWTBundle utilise username par défaut
+          email: data.email, // LexikJWTBundle utilise username par défaut
           password: data.password
         }),
       });

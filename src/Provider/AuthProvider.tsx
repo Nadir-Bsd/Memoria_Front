@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import { createContext, useContext, useMemo, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import authService from "@/services/authService";
 import { AuthState, LoginFormData, RegisterFormData } from "@/types/authType";
@@ -17,7 +17,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // État initial
 const initialState: AuthState = {
   user: null,
-  isLoading: true,
+  isLoading: false,
   error: null,
   isAuthenticated: false,
 };
