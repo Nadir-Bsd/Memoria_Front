@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/navBar";
 import { TimerProvider } from "@/Provider/TimerProvider";
+import { AuthProvider } from "@/Provider/AuthProvider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -29,12 +30,14 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
             >
-                <TimerProvider>
-                    <NavBar />
-                    <main className="flex-1 w-full bg-neutral-950 flex flex-col justify-center items-center h-screen">
-                        {children}
-                    </main>
-                </TimerProvider>
+                <AuthProvider>
+                    <TimerProvider>
+                        <NavBar />
+                        <main className="flex-1 w-full bg-neutral-950 flex flex-col justify-center items-center h-screen">
+                            {children}
+                        </main>
+                    </TimerProvider>
+                </AuthProvider>
             </body>
         </html>
     );
