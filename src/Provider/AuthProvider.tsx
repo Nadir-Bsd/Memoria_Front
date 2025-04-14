@@ -22,7 +22,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
 };
 
-// Provider pour le contexte d'authentification
+// connecte user, redirige vers home et cree un context avec le token
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>(initialState);
   const router = useRouter();
@@ -32,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
     
     try {
+      // returns le token, les infos utilisateur et stocke le token dans le cookie, localStorage ou sessionStorage
       const { user } = await authService.login(data);
       
       setState({

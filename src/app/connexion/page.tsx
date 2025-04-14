@@ -10,7 +10,7 @@ const ConnexionPage = () => {
     const [password, setPassword] = useState("");
     const [pseudo, setPseudo] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
-    
+
     const { login, register, error, isLoading } = useAuth();
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -46,7 +46,6 @@ const ConnexionPage = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-
                 {/* Email */}
                 <div>
                     <label

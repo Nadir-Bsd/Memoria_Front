@@ -7,11 +7,15 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
  */
 class AuthService {
   /**
-   * Connecte un utilisateur avec son email et mot de passe
+   * Connecte user avec email, mdp et envoie le token dans le cookie ou localStorage et return user
+   * @param data - Données de connexion
+   * @returns {Promise<{ user: User; token: string }>} - L'utilisateur connecté et le token
+   * @throws {Error} - En cas d'erreur lors de la récupération des informations utilisateur
    */
   async login(data: LoginFormData): Promise<{ user: User; token: string }> {
     try {
       // Utilisation de l'endpoint standard pour LexikJWTAuthenticationBundle
+      // envoi les datas au format JSON en POST
       const loginResponse = await fetch(`${API_URL}/login_check`, {
         method: "POST",
         headers: {
@@ -30,6 +34,7 @@ class AuthService {
       }
 
       const { token } = await loginResponse.json();
+      document.cookie = `auth_token=${token}; path=/; secure; samesite=strict`;
       
       // Stockage du token selon préférence utilisateur
       if (data.rememberMe) {

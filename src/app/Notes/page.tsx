@@ -25,7 +25,6 @@ const Notes = (): JSX.Element => {
     }, []);
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
-    
 
     return (
         <>
@@ -51,7 +50,7 @@ const Notes = (): JSX.Element => {
                     {/* mettre le composant Plus ici */}
                     <Plus pageActuel="notes" />
                 </div>
-            )} 
+            )}
         </>
     );
 };
