@@ -4,7 +4,6 @@ import "./globals.css";
 import NavBar from "@/components/navBar";
 import { TimerProvider } from "@/Provider/TimerProvider";
 import { AuthProvider } from "@/Provider/AuthProvider";
-import authService from "@/services/authService";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -26,6 +25,8 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+
+
     return (
         <html lang="en">
             <body
@@ -33,9 +34,8 @@ export default function RootLayout({
             >
                 <AuthProvider>
                     <TimerProvider>
+                        {/* Affiche la NavBar sauf sur la page de connexion */}
                         <NavBar />
-                        {/* check if the user is connected else Push to /connection */}
-
                         <main className="flex-1 w-full bg-neutral-950 flex flex-col justify-center items-center h-screen">
                             {children}
                         </main>
