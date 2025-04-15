@@ -11,9 +11,9 @@ function authMiddleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // Si l'utilisateur n'est pas sur la page d'accueil ou la page de connexion
-    if (request.nextUrl.pathname !== "/connexion") {
-        return NextResponse.redirect(new URL("/connexion", request.url));
+    // Si l'utilisateur n'est pas sur la page d'accueil ou la page de connection
+    if (request.nextUrl.pathname !== "/connection") {
+        return NextResponse.redirect(new URL("/connection", request.url));
     }
 
     return NextResponse.next();

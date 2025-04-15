@@ -13,10 +13,7 @@ const NavBar = ({}): JSX.Element => {
 
     return (
         <>
-            {route == "/connexion" ? (
-                // travaile une autre nav bar pour la page de connexion
-                null
-            ) : (
+            {route == "/connection" ? null : ( // travaile une autre nav bar pour la page de connection
                 <header className="bg-black text-white w-full">
                     <nav className="container mx-auto flex justify-between items-center py-4">
                         {/* Left Section: Logo and Countdown */}

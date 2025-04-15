@@ -34,7 +34,7 @@ export default function RootLayout({
             >
                 <AuthProvider>
                     <TimerProvider>
-                        {/* Affiche la NavBar sauf sur la page de connexion */}
+                        {/* Affiche la NavBar sauf sur la page de connection */}
                         <NavBar />
                         <main className="flex-1 w-full bg-neutral-950 flex flex-col justify-center items-center h-screen">
                             {children}
