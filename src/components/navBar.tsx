@@ -9,7 +9,6 @@ import { usePathname } from "next/navigation";
 const NavBar = ({}): JSX.Element => {
     // Get the current route
     const route = usePathname();
-    console.log(route);
 
     return (
         <>
