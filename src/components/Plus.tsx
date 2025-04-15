@@ -8,12 +8,12 @@ interface PlusProps {
 
 const Plus = ({pageActuel = "boite de leitner"}: PlusProps): JSX.Element => {
     return(
-        <>
-           <p>Bienvenue ! Cliquez sur le bouton "+" ci-dessous pour créer votre première {pageActuel}.</p>
-            <Link href="/Notes/TakeNote">
-                <FaPlus /> {/* Icône Plus */}
+        <div className="flex flex-col items-center justify-center h-100">
+           <p className="text-lg font-semibold">Bienvenue ! Cliquez sur le bouton "+" ci-dessous pour créer votre première {pageActuel}.</p>
+            <Link href="/Notes/TakeNote" className="text-white p-2 flex justify-center mt-4" aria-label="Créer une note">
+                <FaPlus className="text-5xl" /> {/* Icône Plus */}
             </Link>
-        </>
+        </div>
     )
 }
 

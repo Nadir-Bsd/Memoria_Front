@@ -38,11 +38,16 @@ const Notes = (): JSX.Element => {
     console.log("Notes data:", notes);
 
     return (
-        <>
+        <div className="flex flex-col justify-between items-center mb-4 w-[90%] h-[100%] rounded-md p-2">
             {/* filters et new Note */}
-            <div>
-                <div>{/* mettre les filtres ICI */}</div>
-                <button>New</button>
+            <div className="flex justify-between items-center mb-4 bg-amber-50 w-[90%] h-12 rounded-md p-2">
+                <div className="flex gap-2 h-[100%]">
+                    <button className="bg-amber-950 rounded-md h-[100%]">New</button>
+                    <button className="bg-amber-950 rounded-md h-[100%]">New</button>
+                    <button className="bg-amber-950 rounded-md h-[100%]">New</button>
+                    <button className="bg-amber-950 rounded-md h-[100%]">New</button>
+                </div>
+                <button className="bg-amber-950 rounded-md h-[100%]">New</button>
             </div>
             {/* if the user already have note show notes else show Plus component */}
             {notes && Array.isArray(notes) && notes.length > 0 ? (
@@ -61,7 +66,7 @@ const Notes = (): JSX.Element => {
                     <Plus pageActuel="notes" />
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
