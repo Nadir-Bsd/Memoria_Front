@@ -1,7 +1,7 @@
 "use client";
 
 import Plus from "@/components/Plus";
-import fetchNotes from "@/Provider/NotesProvider";
+import noteService from "@/Provider/NotesProvider";
 import { JSX, useEffect, useState } from "react";
 
 export interface Note {
@@ -20,7 +20,7 @@ const Notes = (): JSX.Element => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchNotes();
+                const data = await noteService.fetchNotes();
                 setNotes(data.member);
             } catch (err) {
                 setError("Failed to fetch notes");
