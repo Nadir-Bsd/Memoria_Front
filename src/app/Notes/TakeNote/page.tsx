@@ -6,6 +6,7 @@ import noteService from "@/Provider/NotesProvider";
 import { useState, useEffect } from "react";
 
 const TakeNote = () => {
+    // state de la note qui est en cours de création
     const [content, setContent] = useState<string>("");
     // note Acctual
     const [acctualNote, setAcctualNote] = useState<Notes | null>(null);
@@ -40,8 +41,9 @@ const TakeNote = () => {
         if (isResume) {
             const fetchNote = async () => {
                 if (acctualNote) {
-                    const note = await noteService.fetchNote(acctualNote.id);
-                    setContent(note.text);
+                    const note = await noteService.fetchNote("7");
+                    setAcctualNote(note);
+                    acctualNote.resume ? setContent(acctualNote.resume) : setContent("");
                 }
             };
     
@@ -51,6 +53,9 @@ const TakeNote = () => {
 
     // Fonction pour envoyer les données
     const handleSave = async () => {
+
+        // check dans quel phase on est !!!!
+
         if (content) {
             const NotesData: NotesState = {
                 text: content,
@@ -84,7 +89,7 @@ const TakeNote = () => {
                 {/* key words */}
                 {isResume && (
                     <div className="w-[30%] max-w-3xl mb-6 border-amber-300 border-2 rounded-lg p-4">
-                        <p>THE KEY CONTENT</p>
+                        <p>{acctualNote?.keyWord || "No keywords available"}</p>
                     </div>
                 )}
             </section>
@@ -94,7 +99,7 @@ const TakeNote = () => {
                 {/* the Note wirte before */}
                 {isResume && (
                     <div className="w-[20%] h-full border border-gray-300 bg-gray-200 p-4 rounded-t-lg">
-                        <p className="text-gray-800 text-lg">{content}</p>
+                        <p className="text-gray-800 text-lg">{acctualNote?.text}</p>
                     </div>
                 )}
 
