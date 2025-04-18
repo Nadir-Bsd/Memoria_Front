@@ -43,7 +43,7 @@ const TakeNote = () => {
                 if (acctualNote) {
                     const note = await noteService.fetchNote(acctualNote.id);
                     setAcctualNote(note);
-                    acctualNote.resume ? setContent(acctualNote.resume) : setContent("");
+                    setContent(note.resume ? note.resume : "");
                 }
             };
     
