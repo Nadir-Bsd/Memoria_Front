@@ -3,6 +3,7 @@
 import Plus from "@/components/Plus";
 import noteService from "@/Provider/NotesProvider";
 import { JSX, useEffect, useState } from "react";
+import Link from "next/link";
 
 export interface Note {
     "@id": string;
@@ -57,9 +58,9 @@ const Notes = (): JSX.Element => {
                                 New
                             </button>
                         </div>
-                        <button className="bg-amber-950 rounded-md h-[100%]">
-                            New
-                        </button>
+                        <Link href="/Notes/TakeNote" className="bg-amber-950 rounded-md h-[100%]">
+                            new Note
+                        </Link>
                     </div>
                     {notes.map((note, index) => (
                         <div key={index}>
