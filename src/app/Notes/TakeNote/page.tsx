@@ -1,6 +1,6 @@
 "use client";
 
-import { NotesState, Notes } from "@/types/NotesType";
+import { NotesState, Notes, NotesData } from "@/types/NotesType";
 import notesService from "@/services/NotesService";
 import noteService from "@/Provider/NotesProvider";
 import { useState, useEffect } from "react";
@@ -35,13 +35,14 @@ const TakeNote = () => {
         }
     }, []);
 
-    // get les données de la note
+    // get les données de la note dans la phase de resume
     useEffect(() => {
 
         if (isResume) {
+
             const fetchNote = async () => {
                 if (acctualNote) {
-                    const note = await noteService.fetchNote(acctualNote.id);
+                    const note = await noteService.fetchNote(acctualNote["@id"].split("/").pop() as string);
                     setAcctualNote(note);
                     setContent(note.resume ? note.resume : "");
                 }
@@ -65,7 +66,7 @@ const TakeNote = () => {
                 userCategory: null,
             };
 
-            const AcctualNoteData = await notesService.createNote(NotesData);
+            var AcctualNoteData = await notesService.createNote(NotesData);
 
             if (AcctualNoteData) {
                 setContent("");
@@ -76,8 +77,34 @@ const TakeNote = () => {
         }
     };
 
+    const handleResume = async () => {
+
+        // probleme pas de resume de la note en db !!!!
+        if(content && acctualNote !== null) {
+
+            const NotesData: NotesData = {
+                id: acctualNote["@id"].split("/").pop() as string,
+                text: acctualNote.text,
+                resume: content || null,
+                keyWord: acctualNote.keyWord || null,
+                globalCategory: acctualNote.globalCategory || null,
+                userCategory: acctualNote.userCategory || null,
+            };
+
+            var AcctualNoteData = await notesService.updateNote(NotesData);
+            
+            if (AcctualNoteData) {
+                setContent("");
+                localStorage.removeItem("noteContent");
+                setIsResume(true);
+                setAcctualNote(AcctualNoteData);
+            }
+        }
+    }
+
     return (
         <div className="flex flex-col items-center justify-center gap-4 h-full w-full p-4">
+
             {/* Title Area */}
             <section className="flex justify-between items-center w-[90%] bg-green-600">
                 {/* Title Area */}
@@ -124,7 +151,7 @@ const TakeNote = () => {
             {/* Save Button */}
             <button
                 className="bg-blue-600 text-white px-8 py-3 rounded-lg shadow hover:bg-blue-700 transition"
-                onClick={handleSave}
+                onClick={isResume ? handleResume : handleSave}
             >
                 Save
             </button>

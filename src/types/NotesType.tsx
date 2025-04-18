@@ -1,5 +1,5 @@
 export interface Notes {
-    id: string;
+    "@id": string;
     text: string;
     resume: string | null;
     keyWord: string | null;
@@ -13,6 +13,15 @@ export interface NotesState {
     keyWord: string | null;
     globalCategory: string | null;
     userCategory: string | null;    
+}
+
+export interface NotesData {
+    id: string;
+    text: string;
+    resume: string | null;
+    keyWord: string | null;
+    globalCategory: string | null;
+    userCategory: string | null;
 }
 
 //   export interface AuthState {

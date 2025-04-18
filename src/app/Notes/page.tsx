@@ -35,8 +35,6 @@ const Notes = (): JSX.Element => {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
-    console.log("Notes data:", notes);
-
     return (
         <div className="flex flex-col justify-between items-center mb-4 w-[90%] h-[100%] rounded-md p-2">
             {/* if the user already have note show notes else show Plus component */}

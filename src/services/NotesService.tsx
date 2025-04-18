@@ -1,4 +1,4 @@
-import { NotesState } from "@/types/NotesType";
+import { NotesState, NotesData } from "@/types/NotesType";
 import authService from "@/services/authService";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -46,6 +46,34 @@ class NotesService {
         }
         catch (error) {
             console.error("Erreur lors de la création de la note :", error);
+            throw error;
+        }
+    }
+
+    async updateNote(
+        note: NotesData
+    ) {
+        try {
+
+            const response = await fetch(`${API_URL}/note/${note.id}`, {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/ld+json",
+                    Authorization: `Bearer ${API_KEY}`,
+                    "Content-Type": "application/merge-patch+json"
+                },
+                body: JSON.stringify(note),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data;
+        }
+        catch (error) {
+            console.error("Erreur lors de la mise à jour de la note :", error);
             throw error;
         }
     }
