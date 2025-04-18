@@ -41,7 +41,7 @@ const TakeNote = () => {
         if (isResume) {
             const fetchNote = async () => {
                 if (acctualNote) {
-                    const note = await noteService.fetchNote("7");
+                    const note = await noteService.fetchNote(acctualNote.id);
                     setAcctualNote(note);
                     acctualNote.resume ? setContent(acctualNote.resume) : setContent("");
                 }
