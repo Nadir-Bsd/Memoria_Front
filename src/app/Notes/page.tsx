@@ -56,17 +56,33 @@ const Notes = (): JSX.Element => {
                                 New
                             </button>
                         </div>
-                        <Link href="/Notes/TakeNote" className="bg-amber-950 rounded-md h-[100%]">
+                        <Link
+                            href="/Notes/TakeNote"
+                            className="bg-amber-950 rounded-md h-[100%]"
+                        >
                             new Note
                         </Link>
                     </div>
-                    {notes.map((note, index) => (
-                        <div key={index}>
-                            <h2>{note.text}</h2>
-                            <p>{note.resume}</p>
-                            <p>{note.keyWord}</p>
-                        </div>
-                    ))}
+                    <div className="flex flex-wrap gap-4 justify-center">
+                        {notes.map((note, index) => (
+                            <div
+                                key={index}
+                                className="bg-white shadow-md rounded-lg p-4 w-[300px] h-[200px] flex flex-col  items-center border border-gray-300"
+                            >
+                                <div className="flex justify-between items-center border-b border-gray-200 pb-2 w-full">
+                                    <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">
+                                        {note.keyWord}
+                                    </span>
+                                    <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">
+                                        {note.resume}
+                                    </span>
+                                </div>
+                                <h2 className="text-lg font-bold text-gray-800 mt-2 text-center">
+                                    {note.text}
+                                </h2>
+                            </div>
+                        ))}
+                    </div>
                 </>
             ) : (
                 <>
