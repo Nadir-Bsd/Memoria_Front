@@ -12,7 +12,8 @@ class NotesService {
     /**
      * Crée une nouvelle note
      * @param Notes - L'objet NotesState contenant les données de la note
-     * @returns La réponse de l'API
+     * @returns La note créée
+     * @throws Une erreur si la requête échoue  
      */
     async createNote(
         Notes: NotesState
@@ -50,6 +51,11 @@ class NotesService {
         }
     }
 
+    /**
+     * Récupère toutes les notes
+     * @param NotesData - L'objet NotesData contenant les données de la note
+     * @returns la note mise à jour
+     */
     async updateNote(
         note: NotesData
     ) {
