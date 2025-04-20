@@ -3,7 +3,7 @@
 import { NotesState, Notes, NotesData } from "@/types/NotesType";
 import notesService from "@/services/NotesService";
 import noteService from "@/Provider/NotesProvider";
-import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";import { useState, useEffect } from "react";
 
 const TakeNote = () => {
     // state de la note qui est en cours de création
@@ -14,6 +14,8 @@ const TakeNote = () => {
     const [isResume, setIsResume] = useState<boolean>(false);
     // state pour UPDATE
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
+
+    const router = useRouter();
 
     // Sauvegarde dans le localStorage à chaque modification
     useEffect(() => {
@@ -52,7 +54,7 @@ const TakeNote = () => {
         }
     }, [isResume]);
 
-    // Fonction pour envoyer les données
+    // Fonction pour creer une note via l'API
     const handleSave = async () => {
 
         // check dans quel phase on est !!!!
@@ -77,9 +79,9 @@ const TakeNote = () => {
         }
     };
 
+    // function pour update une note via l'API
     const handleResume = async () => {
 
-        // probleme pas de resume de la note en db !!!!
         if(content && acctualNote !== null) {
 
             const NotesData: NotesData = {
@@ -96,8 +98,7 @@ const TakeNote = () => {
             if (AcctualNoteData) {
                 setContent("");
                 localStorage.removeItem("noteContent");
-                setIsResume(true);
-                setAcctualNote(AcctualNoteData);
+                router.push("/Notes");
             }
         }
     }
