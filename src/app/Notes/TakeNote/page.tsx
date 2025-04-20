@@ -3,7 +3,9 @@
 import { NotesState, Notes, NotesData } from "@/types/NotesType";
 import notesService from "@/services/NotesService";
 import noteService from "@/Provider/NotesProvider";
-import { useRouter } from "next/navigation";import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { isContext } from "vm";
 
 const TakeNote = () => {
     // state de la note qui est en cours de création
@@ -31,34 +33,49 @@ const TakeNote = () => {
 
     // Récupère le contenu du localStorage au chargement
     useEffect(() => {
-        const savedContent = localStorage.getItem("noteContent");
-        if (savedContent) {
-            setContent(savedContent);
+        if (isResume === false && isUpdate === false) {
+            setContent("");
+        }else {
+            const savedContent = localStorage.getItem("noteContent");
+            if (savedContent) {
+                setContent(savedContent);
+            }
         }
     }, []);
 
-    // get les données de la note dans la phase de resume
+    // si acctualNote a un resume ou text en DB, on setContent pour Update phase ou Resume phase
     useEffect(() => {
-
+        // si isResume phase est vrais on fetch note actuel, si resume dans note on setContent
         if (isResume) {
-
             const fetchNote = async () => {
                 if (acctualNote) {
-                    const note = await noteService.fetchNote(acctualNote["@id"].split("/").pop() as string);
+                    const note = await noteService.fetchNote(
+                        acctualNote["@id"].split("/").pop() as string
+                    );
                     setAcctualNote(note);
                     setContent(note.resume ? note.resume : "");
                 }
             };
-    
+
+            fetchNote();
+        }else if (isUpdate) {
+            // si isUpdate phase est vrais on fetch note acctuel, si text dans note on setContent
+            const fetchNote = async () => {
+                if (acctualNote) {
+                    const note = await noteService.fetchNote(
+                        acctualNote["@id"].split("/").pop() as string
+                    );
+                    setAcctualNote(note);
+                    setContent(note.text ? note.text : "");
+                }
+            };
+
             fetchNote();
         }
-    }, [isResume]);
+    }, [isResume, isUpdate]);
 
     // Fonction pour creer une note via l'API
-    const handleSave = async () => {
-
-        // check dans quel phase on est !!!!
-
+    const handleCreate = async () => {
         if (content) {
             const NotesData: NotesState = {
                 text: content,
@@ -79,33 +96,54 @@ const TakeNote = () => {
         }
     };
 
-    // function pour update une note via l'API
-    const handleResume = async () => {
-
-        if(content && acctualNote !== null) {
+    // function pour update la note actuelle via l'API
+    const handleUpdate = async () => {
+        if (content && acctualNote !== null) {
 
             const NotesData: NotesData = {
                 id: acctualNote["@id"].split("/").pop() as string,
-                text: acctualNote.text,
-                resume: content || null,
+                text: isUpdate ? content : acctualNote.text,
+                resume: isResume ? content : acctualNote.resume || null,
                 keyWord: acctualNote.keyWord || null,
                 globalCategory: acctualNote.globalCategory || null,
                 userCategory: acctualNote.userCategory || null,
             };
 
             var AcctualNoteData = await notesService.updateNote(NotesData);
-            
+
+            if (isUpdate) {
+                setIsUpdate(false);
+                setIsResume(true);
+                setContent(AcctualNoteData.resume || "");
+            }
+
             if (AcctualNoteData) {
-                setContent("");
-                localStorage.removeItem("noteContent");
-                router.push("/Notes");
+                setAcctualNote(AcctualNoteData);
             }
         }
-    }
+    };
+
+    // faire un event si on click sur la div (the note wirte before)
+    const UpdatePhase = () => {
+
+        // on envoie les modif en DB et set la note actuelle
+        handleUpdate();
+        // change les phases
+        setIsResume(false);
+        setIsUpdate(true);
+
+        // set le content avec la note actuelle
+        if (acctualNote) {
+            setContent(acctualNote.text);
+        }else {
+            setContent("");
+            setIsResume(false);
+            setIsUpdate(false);
+        }
+    };
 
     return (
         <div className="flex flex-col items-center justify-center gap-4 h-full w-full p-4">
-
             {/* Title Area */}
             <section className="flex justify-between items-center w-[90%] bg-green-600">
                 {/* Title Area */}
@@ -126,8 +164,12 @@ const TakeNote = () => {
             <section className="flex items-center w-[90%] bg-yellow-950">
                 {/* the Note wirte before */}
                 {isResume && (
-                    <div className="w-[20%] h-full border border-gray-300 bg-gray-200 p-4 rounded-t-lg">
-                        <p className="text-gray-800 text-lg">{acctualNote?.text}</p>
+                    <div className="w-[20%] h-full border border-gray-300 bg-gray-200 p-4 rounded-t-lg"
+                        onClick={UpdatePhase}
+                    >
+                        <p className="text-gray-800 text-lg">
+                            {acctualNote?.text}
+                        </p>
                     </div>
                 )}
 
@@ -152,7 +194,9 @@ const TakeNote = () => {
             {/* Save Button */}
             <button
                 className="bg-blue-600 text-white px-8 py-3 rounded-lg shadow hover:bg-blue-700 transition"
-                onClick={isResume ? handleResume : handleSave}
+                // faire les redirection de page ici
+                
+                onClick={isResume || isUpdate ? handleUpdate : handleCreate}
             >
                 Save
             </button>
