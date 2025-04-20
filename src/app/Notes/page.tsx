@@ -71,7 +71,7 @@ const Notes = (): JSX.Element => {
                             >
                                 <div className="flex justify-between items-center border-b border-gray-200 pb-2 w-full">
                                     <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">
-                                        {note.keyWord}
+                                        {note.keyWord ? "un resume" : "pas de resume"}
                                     </span>
                                     <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">
                                         {note.resume}
