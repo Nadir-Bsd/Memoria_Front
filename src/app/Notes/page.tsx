@@ -4,17 +4,11 @@ import Plus from "@/components/Plus";
 import noteService from "@/Provider/NotesProvider";
 import { JSX, useEffect, useState } from "react";
 import Link from "next/link";
+import { Notes } from "@/types/NotesType";
 
-export interface Note {
-    "@id": string;
-    "@type": string;
-    text: string;
-    resume: string;
-    keyWord: string;
-}
 
-const Notes = (): JSX.Element => {
-    const [notes, setNotes] = useState<Note[]>([]);
+const NotesPage = (): JSX.Element => {
+    const [notes, setNotes] = useState<Notes | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -94,4 +88,4 @@ const Notes = (): JSX.Element => {
     );
 };
 
-export default Notes;
+export default NotesPage;

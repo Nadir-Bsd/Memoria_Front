@@ -6,6 +6,13 @@ import noteService from "@/Provider/NotesProvider";
 import { useState, useEffect } from "react";
 
 const TakeNote = () => {
+
+    // si il y a un props:
+    // set le state acctualNote avec la note(Props)
+    // on met isUpdate à true 
+    // et on laisse le useEffect faire le reste
+
+
     // state de la note qui est en cours de création
     const [content, setContent] = useState<string>("");
     // note Acctual
