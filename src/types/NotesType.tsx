@@ -1,4 +1,4 @@
-export interface Notes {
+export interface Note {
     "@id": string;
     text: string;
     resume: string | null;

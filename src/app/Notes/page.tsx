@@ -4,11 +4,11 @@ import Plus from "@/components/Plus";
 import noteService from "@/Provider/NotesProvider";
 import { JSX, useEffect, useState } from "react";
 import Link from "next/link";
-import { Notes } from "@/types/NotesType";
+import { Note } from "@/types/NotesType";
 
 
 const NotesPage = (): JSX.Element => {
-    const [notes, setNotes] = useState<Notes | null>(null);
+    const [notes, setNotes] = useState<Note | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -25,6 +25,14 @@ const NotesPage = (): JSX.Element => {
         };
         fetchData();
     }, []);
+
+    // function onClick stock une Note dans le localStorage, isTarget = true dans l'URL et go to TakeNote
+    const handleTargetedNote = (note: Note) => {
+        // met une Note dans le localStorage
+        localStorage.setItem("targetedNote", JSON.stringify(note));
+        // on mets isTarget à true dans l'URL et qui redirige vers TakeNote
+        window.location.href = "/Notes/TakeNote?isTarget=true";
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -62,6 +70,7 @@ const NotesPage = (): JSX.Element => {
                             <div
                                 key={index}
                                 className="bg-white shadow-md rounded-lg p-4 w-[300px] h-[200px] flex flex-col  items-center border border-gray-300"
+                                onClick={() => handleTargetedNote(note)}
                             >
                                 <div className="flex justify-between items-center border-b border-gray-200 pb-2 w-full">
                                     <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">

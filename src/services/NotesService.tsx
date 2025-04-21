@@ -11,21 +11,21 @@ class NotesService {
     
     /**
      * Crée une nouvelle note
-     * @param Notes - L'objet NotesState contenant les données de la note
+     * @param Note - L'objet NotesState contenant les données de la note
      * @returns La note créée
      * @throws Une erreur si la requête échoue  
      */
     async createNote(
-        Notes: NotesState
+        Note: NotesState
     ) {
         try {
 
             const NotesData = {
-                text: Notes.text,
-                resume: Notes.resume || null,
-                keyWord: Notes.keyWord || null,
-                globalCategory: Notes.globalCategory || null,
-                userCategory: Notes.userCategory || null,
+                text: Note.text,
+                resume: Note.resume || null,
+                keyWord: Note.keyWord || null,
+                globalCategory: Note.globalCategory || null,
+                userCategory: Note.userCategory || null,
             }
 
             const response = await fetch(`${API_URL}/note`, {

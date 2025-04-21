@@ -1,14 +1,16 @@
 "use client";
 
-import { NotesState, Notes, NotesData } from "@/types/NotesType";
+import { NotesState, Note, NotesData } from "@/types/NotesType";
 import notesService from "@/services/NotesService";
 import noteService from "@/Provider/NotesProvider";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const TakeNote = () => {
 
-    // si il y a un props:
-    // set le state acctualNote avec la note(Props)
+    // si isTarget egal true:
+    // on set le state acctualNote avec la note dans le localStorage
     // on met isUpdate à true 
     // et on laisse le useEffect faire le reste
 
@@ -16,11 +18,13 @@ const TakeNote = () => {
     // state de la note qui est en cours de création
     const [content, setContent] = useState<string>("");
     // note Acctual
-    const [acctualNote, setAcctualNote] = useState<Notes | null>(null);
+    const [acctualNote, setAcctualNote] = useState<Note | null>(null);
     // state de la phase de création
     const [isResume, setIsResume] = useState<boolean>(false);
     // state pour UPDATE
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
+
+    const searchParams = useSearchParams();
 
     // Sauvegarde dans le localStorage à chaque modification
     useEffect(() => {
@@ -35,13 +39,17 @@ const TakeNote = () => {
     }, [content]);
 
     // Récupère le contenu du localStorage au chargement
+    // peut etre evoluer pour recuperer la note dans le localStorage si isTarget est vrai dans l'URL
     useEffect(() => {
-        if (isResume === false && isUpdate === false) {
-            setContent("");
-        }else {
-            const savedContent = localStorage.getItem("noteContent");
-            if (savedContent) {
-                setContent(savedContent);
+        // get isTarget dans l'URL
+        const isTarget = searchParams.get("isTarget");
+        if (isTarget === "true") {
+            const storedNote = localStorage.getItem("targetedNote");
+            if (storedNote) {
+                const note = JSON.parse(storedNote);
+                setAcctualNote(note);
+                setIsUpdate(true);
+                setContent(note.text || "");
             }
         }
     }, []);
