@@ -31,7 +31,7 @@ const TakeNote = () => {
         };
     }, [content]);
 
-    // recupere la note dans le localStorage si isTarget est vrai dans l'URL
+    // recupere la note dans le localStorage si isTarget est vrai dans l'URL, set accutalNote
     useEffect(() => {
         // get isTarget dans l'URL
         const isTarget = searchParams.get("isTarget");
@@ -126,7 +126,7 @@ const TakeNote = () => {
         }
     };
 
-    // faire un event si on click sur la div (the note wirte before)
+    // faire un event si on click sur la div (the note wirte before) pour UpdatePhase
     const UpdatePhase = () => {
 
         // on envoie les modif en DB et set la note actuelle
