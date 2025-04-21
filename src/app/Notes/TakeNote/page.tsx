@@ -5,15 +5,8 @@ import notesService from "@/services/NotesService";
 import noteService from "@/Provider/NotesProvider";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 const TakeNote = () => {
-
-    // si isTarget egal true:
-    // on set le state acctualNote avec la note dans le localStorage
-    // on met isUpdate à true 
-    // et on laisse le useEffect faire le reste
-
 
     // state de la note qui est en cours de création
     const [content, setContent] = useState<string>("");
@@ -38,8 +31,7 @@ const TakeNote = () => {
         };
     }, [content]);
 
-    // Récupère le contenu du localStorage au chargement
-    // peut etre evoluer pour recuperer la note dans le localStorage si isTarget est vrai dans l'URL
+    // recupere la note dans le localStorage si isTarget est vrai dans l'URL
     useEffect(() => {
         // get isTarget dans l'URL
         const isTarget = searchParams.get("isTarget");
