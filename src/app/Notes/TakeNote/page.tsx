@@ -3,9 +3,7 @@
 import { NotesState, Notes, NotesData } from "@/types/NotesType";
 import notesService from "@/services/NotesService";
 import noteService from "@/Provider/NotesProvider";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { isContext } from "vm";
 
 const TakeNote = () => {
     // state de la note qui est en cours de création
@@ -16,8 +14,6 @@ const TakeNote = () => {
     const [isResume, setIsResume] = useState<boolean>(false);
     // state pour UPDATE
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
-
-    const router = useRouter();
 
     // Sauvegarde dans le localStorage à chaque modification
     useEffect(() => {
