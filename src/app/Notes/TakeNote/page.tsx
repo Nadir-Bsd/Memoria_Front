@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 const TakeNote = () => {
-
     // state de la note qui est en cours de création
     const [content, setContent] = useState<string>("");
     // note Acctual
@@ -61,7 +60,7 @@ const TakeNote = () => {
             };
 
             fetchNote();
-        }else if (isUpdate) {
+        } else if (isUpdate) {
             // si isUpdate phase est vrais on fetch note acctuel, si text dans note on setContent
             const fetchNote = async () => {
                 if (acctualNote) {
@@ -102,7 +101,6 @@ const TakeNote = () => {
     // function pour update la note actuelle via l'API
     const handleUpdate = async () => {
         if (content && acctualNote !== null) {
-
             const NotesData: NotesData = {
                 id: acctualNote["@id"].split("/").pop() as string,
                 text: isUpdate ? content : acctualNote.text,
@@ -128,7 +126,6 @@ const TakeNote = () => {
 
     // faire un event si on click sur la div (the note wirte before) pour UpdatePhase
     const UpdatePhase = () => {
-
         // on envoie les modif en DB et set la note actuelle
         handleUpdate();
         // change les phases
@@ -138,7 +135,7 @@ const TakeNote = () => {
         // set le content avec la note actuelle
         if (acctualNote) {
             setContent(acctualNote.text);
-        }else {
+        } else {
             setContent("");
             setIsResume(false);
             setIsUpdate(false);
@@ -167,7 +164,8 @@ const TakeNote = () => {
             <section className="flex items-center w-[90%] bg-yellow-950">
                 {/* the Note wirte before */}
                 {isResume && (
-                    <div className="w-[20%] h-full border border-gray-300 bg-gray-200 p-4 rounded-t-lg"
+                    <div
+                        className="w-[20%] h-full border border-gray-300 bg-gray-200 p-4 rounded-t-lg"
                         onClick={UpdatePhase}
                     >
                         <p className="text-gray-800 text-lg">
@@ -196,15 +194,15 @@ const TakeNote = () => {
 
             {/* Save Button */}
             <button
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg shadow hover:bg-blue-700 transition"
-                // faire les redirection de page ici
-                
+                className={`bg-blue-600 text-white px-8 py-3 rounded-lg shadow relative overflow-hidden transition-all duration-500 ${
+                    isResume ? "animate-pulse" : "hover:bg-blue-700"
+                }`}
                 onClick={isResume || isUpdate ? handleUpdate : handleCreate}
             >
-                Save
+                <span className="relative">Save</span>
             </button>
         </div>
     );
-};
+};  
 
 export default TakeNote;

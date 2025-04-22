@@ -6,7 +6,6 @@ import { JSX, useEffect, useState } from "react";
 import Link from "next/link";
 import { Note } from "@/types/NotesType";
 
-
 const NotesPage = (): JSX.Element => {
     const [notes, setNotes] = useState<Note | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -74,10 +73,13 @@ const NotesPage = (): JSX.Element => {
                             >
                                 <div className="flex justify-between items-center border-b border-gray-200 pb-2 w-full">
                                     <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">
-                                        {note.resume ? "un resume" : "pas de resume"}
+                                        {note.resume
+                                            ? "un resume"
+                                            : "pas de resume"}
                                     </span>
                                     <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">
-                                        {note.keyWord}
+                                        {note.keyWord?.slice(0, 3)}
+                                        {note.keyWord?.length > 3 ? "..." : ""}
                                     </span>
                                 </div>
                                 <h2 className="text-lg font-bold text-gray-800 mt-2 text-center">
