@@ -177,10 +177,15 @@ const TakeNote = () => {
                 {/* Text Area */}
                 <div className="w-[70%] max-w-3xl flex-grow flex flex-col border border-gray-300 shadow-md rounded-lg">
                     <div className="bg-gray-800 p-3 flex space-x-2 rounded-t-lg">
-                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                        <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        {!isResume && (
+                            <>
+                                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                            </>
+                        )}
                     </div>
+
                     <div className="flex-grow p-4 bg-gray-100 rounded-b-lg">
                         <textarea
                             className="w-full h-full border-none resize-none bg-transparent outline-none text-gray-800 text-lg"
@@ -203,6 +208,6 @@ const TakeNote = () => {
             </button>
         </div>
     );
-};  
+};
 
 export default TakeNote;
