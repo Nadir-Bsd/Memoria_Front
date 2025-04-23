@@ -65,16 +65,17 @@ const TakeNote = () => {
         }
     }, [isResume, isUpdate]);
 
-    // useEffect(() => {
-    //     return () => {
-    //         // Réinitialiser le contexte
-    //         setContent("");
+    // Nettoye le localStorage et le contexte lors du démontage du composant
+    useEffect(() => {
+        return () => {
+            // Réinitialiser le contexte
+            setContent("");
 
-    //         // Supprimer les données du localStorage
-    //         localStorage.removeItem("noteContent");
-    //         localStorage.removeItem("targetedNote");
-    //     };
-    // }, []);
+            // Supprimer les données du localStorage
+            localStorage.removeItem("noteContent");
+            localStorage.removeItem("targetedNote");
+        };
+    }, []);
 
     // Fonction pour creer une note via l'API
     const handleCreate = async () => {
