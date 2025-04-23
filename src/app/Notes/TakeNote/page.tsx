@@ -3,12 +3,13 @@
 import { NotesState, Note, NotesData } from "@/types/NotesType";
 import notesService from "@/services/NotesService";
 import noteService from "@/Provider/NotesProvider";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import TextEditor from "@/components/TextEditor/TextEditor";
+import { useContent } from "@/Provider/ContentNoteProvider";
 
 const TakeNote = () => {
-    // state de la note qui est en cours de création
-    const [content, setContent] = useState<string>("");
+    const { content, setContent } = useContent();
     // note Acctual
     const [acctualNote, setAcctualNote] = useState<Note | null>(null);
     // state de la phase de création
@@ -17,18 +18,6 @@ const TakeNote = () => {
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
     const searchParams = useSearchParams();
-
-    // Sauvegarde dans le localStorage à chaque modification
-    useEffect(() => {
-        // faire du debouncing
-        const handler = setTimeout(() => {
-            localStorage.setItem("noteContent", content);
-        }, 800); // 800ms debounce time
-
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [content]);
 
     // recupere la note dans le localStorage si isTarget est vrai dans l'URL, set accutalNote
     useEffect(() => {
@@ -75,6 +64,17 @@ const TakeNote = () => {
             fetchNote();
         }
     }, [isResume, isUpdate]);
+
+    // useEffect(() => {
+    //     return () => {
+    //         // Réinitialiser le contexte
+    //         setContent("");
+
+    //         // Supprimer les données du localStorage
+    //         localStorage.removeItem("noteContent");
+    //         localStorage.removeItem("targetedNote");
+    //     };
+    // }, []);
 
     // Fonction pour creer une note via l'API
     const handleCreate = async () => {
@@ -176,24 +176,7 @@ const TakeNote = () => {
 
                 {/* Text Area */}
                 <div className="w-[70%] max-w-3xl flex-grow flex flex-col border border-gray-300 shadow-md rounded-lg">
-                    <div className="bg-gray-800 p-3 flex space-x-2 rounded-t-lg">
-                        {!isResume && (
-                            <>
-                                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                            </>
-                        )}
-                    </div>
-
-                    <div className="flex-grow p-4 bg-gray-100 rounded-b-lg">
-                        <textarea
-                            className="w-full h-full border-none resize-none bg-transparent outline-none text-gray-800 text-lg"
-                            placeholder="Write your note..."
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                        />
-                    </div>
+                    <TextEditor isResume={isResume} />
                 </div>
             </section>
 
