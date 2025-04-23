@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import DOMPurify from "dompurify";
 
 // !CONTEXT
 const ContentContext = createContext<{
@@ -11,18 +12,20 @@ const ContentContext = createContext<{
 // !PROVIDER
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
     const [content, setContent] = useState("");
+    const sanitizedContent = DOMPurify.sanitize(content);
+
 
     // Sauvegarde dans le localStorage à chaque modification
     useEffect(() => {
         // faire du debouncing
         const handler = setTimeout(() => {
-            localStorage.setItem("noteContent", content);
+            localStorage.setItem("noteContent", sanitizedContent);
         }, 800); // 800ms debounce time
 
         return () => {
             clearTimeout(handler);
         };
-    }, [content]);
+    }, [sanitizedContent]);
     
 
     return (

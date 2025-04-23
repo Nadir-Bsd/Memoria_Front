@@ -2,11 +2,12 @@
 
 import { NotesState, Note, NotesData } from "@/types/NotesType";
 import notesService from "@/services/NotesService";
+import { useContent } from "@/Provider/ContentNoteProvider";
 import noteService from "@/Provider/NotesProvider";
+import TextEditor from "@/components/TextEditor/TextEditor";
+import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import TextEditor from "@/components/TextEditor/TextEditor";
-import { useContent } from "@/Provider/ContentNoteProvider";
 
 const TakeNote = () => {
     const { content, setContent } = useContent();
@@ -169,8 +170,8 @@ const TakeNote = () => {
                         className="w-[20%] h-full border border-gray-300 bg-gray-200 p-4 rounded-t-lg"
                         onClick={UpdatePhase}
                     >
-                        <p className="text-gray-800 text-lg">
-                            {acctualNote?.text}
+                        <p className="text-gray-800 text-lg"
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(acctualNote?.text || "") }}>
                         </p>
                     </div>
                 )}

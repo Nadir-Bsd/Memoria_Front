@@ -1,24 +1,26 @@
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
+import { useContent } from "@/Provider/ContentNoteProvider";
 import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "@/components/TextEditor/Menu-Bar";
+import DOMPurify from "dompurify";
 import { useEffect } from "react";
-import { useContent } from "@/Provider/ContentNoteProvider";
 
 const TextEditor = ({ isResume }: { isResume: boolean }) => {
     const { content, setContent } = useContent();
+    const sanitizedContent = DOMPurify.sanitize(content);
 
     const editor = useEditor({
         extensions: [StarterKit],
-        content: content || "<p></p>",
+        content: sanitizedContent || "<p></p>",
         editorProps: {
             attributes: {
                 class: "text-gray-900 text-lg bg-white rounded-b-lg block w-full p-2.5 focus:outline-none",
             },
         },
         onUpdate: ({ editor }) => {
-            const updatedContent = editor.getHTML();
+            const updatedContent = DOMPurify.sanitize(editor.getHTML());
             setContent(updatedContent);
         },
     });
@@ -27,8 +29,9 @@ const TextEditor = ({ isResume }: { isResume: boolean }) => {
     useEffect(() => {
         if (editor) {
             const currentContent = editor.getHTML();
-            if (currentContent !== content) {
-                editor.commands.setContent(content);
+            const sanitizedContent = DOMPurify.sanitize(content);
+            if (currentContent !== sanitizedContent) {
+                editor.commands.setContent(sanitizedContent);
             }
         }
     }, [editor, content]);

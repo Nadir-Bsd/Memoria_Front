@@ -2,9 +2,10 @@
 
 import Plus from "@/components/Plus";
 import noteService from "@/Provider/NotesProvider";
+import { Note } from "@/types/NotesType";
 import { JSX, useEffect, useState } from "react";
 import Link from "next/link";
-import { Note } from "@/types/NotesType";
+import DOMPurify from "dompurify";
 
 const NotesPage = (): JSX.Element => {
     const [notes, setNotes] = useState<Note | null>(null);
@@ -82,9 +83,10 @@ const NotesPage = (): JSX.Element => {
                                         {note.keyWord?.length > 3 ? "..." : ""}
                                     </span>
                                 </div>
-                                <h2 className="text-lg font-bold text-gray-800 mt-2 text-center">
-                                    {note.text}
-                                </h2>
+                                <h2
+                                    className="text-lg font-bold text-gray-800 mt-2 text-center"
+                                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(note.text) }}
+                                ></h2>
                             </div>
                         ))}
                     </div>
