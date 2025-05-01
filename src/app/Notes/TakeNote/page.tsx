@@ -8,6 +8,7 @@ import TextEditor from "@/components/TextEditor/TextEditor";
 import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { stringify } from "querystring";
 
 const TakeNote = () => {
     const { content, setContent } = useContent();
@@ -81,10 +82,12 @@ const TakeNote = () => {
     // Fonction pour creer une note via l'API
     const handleCreate = async () => {
         if (content) {
+            const keywords = handleExtractKeywords(content);
+
             const NotesData: NotesState = {
                 text: content,
                 resume: null,
-                keyWord: null,
+                keyWord: keywords || null,
                 globalCategory: null,
                 userCategory: null,
             };
@@ -103,11 +106,13 @@ const TakeNote = () => {
     // function pour update la note actuelle via l'API
     const handleUpdate = async () => {
         if (content && acctualNote !== null) {
+            const keywords = handleExtractKeywords(content);
+
             const NotesData: NotesData = {
                 id: acctualNote["@id"].split("/").pop() as string,
                 text: isUpdate ? content : acctualNote.text,
                 resume: isResume ? content : acctualNote.resume || null,
-                keyWord: acctualNote.keyWord || null,
+                keyWord: isUpdate ? keywords : acctualNote.keyWord || null,
                 globalCategory: acctualNote.globalCategory || null,
                 userCategory: acctualNote.userCategory || null,
             };
@@ -124,6 +129,17 @@ const TakeNote = () => {
                 setAcctualNote(AcctualNoteData);
             }
         }
+    };
+
+    // Fonction pour extraire les mots clés du texte
+    const handleExtractKeywords = (text: string): string => {
+        const regex = /<strong>(.*?)<\/strong>/g;
+        const matches = [];
+        let match;
+        while ((match = regex.exec(text)) !== null) {
+            matches.push(match[1]);
+        }
+        return matches.join(", ");
     };
 
     // faire un event si on click sur la div (the note wirte before) pour UpdatePhase
@@ -170,9 +186,14 @@ const TakeNote = () => {
                         className="w-[20%] h-full border border-gray-300 bg-gray-200 p-4 rounded-t-lg"
                         onClick={UpdatePhase}
                     >
-                        <p className="text-gray-800 text-lg"
-                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(acctualNote?.text || "") }}>
-                        </p>
+                        <p
+                            className="text-gray-800 text-lg"
+                            dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(
+                                    acctualNote?.text || ""
+                                ),
+                            }}
+                        ></p>
                     </div>
                 )}
 
