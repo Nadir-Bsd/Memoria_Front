@@ -1,6 +1,5 @@
 export default function MenuBar({
     editor,
-    isResume,
 }: any & { isResume: boolean }) {
     if (!editor) {
         return null;
@@ -10,27 +9,27 @@ export default function MenuBar({
         <>
             <button
                 onClick={() => editor.chain().focus().toggleBold().run()}
-                className={`w-3 h-3 bg-red-500 rounded-full ${
+                className={`w-30 h-fit bg-red-500 rounded ${
                     editor.isActive("bold") ? "is-active" : ""
                 }`}
             >
-                Bold
+                Bold (Ctrl + B)
             </button>
             <button
                 onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={`w-3 h-3 bg-yellow-500 rounded-full ${
+                className={`w-30 h-fit bg-yellow-500 rounded ${
                     editor.isActive("italic") ? "is-active" : ""
                 }`}
             >
-                Italic
+                Italic (Ctrl + I)
             </button>
             <button
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
-                className={`w-3 h-3 bg-blue-500 rounded-full ${
+                className={`w-40 h-fit bg-blue-500 rounded ${
                     editor.isActive("underline") ? "is-active" : ""
                 }`}
             >
-                Underline
+                Underline (Ctrl + U)
             </button>
         </>
     );
