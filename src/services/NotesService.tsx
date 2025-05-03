@@ -15,9 +15,7 @@ class NotesService {
      * @returns La note créée
      * @throws Une erreur si la requête échoue  
      */
-    async createNote(
-        Note: NotesState
-    ) {
+    async createNote(Note: NotesState): Promise<NotesData>   {
         try {
 
             const NotesData = {
@@ -56,9 +54,7 @@ class NotesService {
      * @param NotesData - L'objet NotesData contenant les données de la note
      * @returns la note mise à jour
      */
-    async updateNote(
-        note: NotesData
-    ) {
+    async updateNote(note: NotesData): Promise<NotesData> {
         try {
 
             const response = await fetch(`${API_URL}/note/${note.id}`, {
@@ -81,6 +77,32 @@ class NotesService {
         catch (error) {
             console.error("Erreur lors de la mise à jour de la note :", error);
             throw error;
+        }
+    }
+
+    /**
+     * Supprime une note
+     * @param noteId - L'ID de la note à supprimer
+     * @returns true si la note a été supprimée, sinon false
+     */
+    async deleteNote(noteId: string): Promise<boolean> {
+        try {
+            const response = await fetch(`${API_URL}/note/${noteId}`, {
+                method: "DELETE",
+                headers: {
+                    Accept: "application/ld+json",
+                    Authorization: `Bearer ${API_KEY}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return true;
+        } catch (error) {
+            console.error("Erreur lors de la suppression de la note :", error);
+            return false;
         }
     }
 }

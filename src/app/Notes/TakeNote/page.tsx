@@ -7,8 +7,7 @@ import noteService from "@/Provider/NotesProvider";
 import TextEditor from "@/components/TextEditor/TextEditor";
 import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { stringify } from "querystring";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const TakeNote = () => {
     const { content, setContent } = useContent();
@@ -20,6 +19,7 @@ const TakeNote = () => {
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
     const searchParams = useSearchParams();
+    const router = useRouter();
 
     // recupere la note dans le localStorage si isTarget est vrai dans l'URL, set accutalNote
     useEffect(() => {
@@ -131,6 +131,23 @@ const TakeNote = () => {
         }
     };
 
+    // Fonction pour supprimer la note actuelle
+    const handleDelete = async () => {
+        if (acctualNote) {
+            await notesService.deleteNote(
+                acctualNote["@id"].split("/").pop() as string
+            );
+            setAcctualNote(null);
+            setContent("");
+            setIsResume(false);
+            setIsUpdate(false);
+            localStorage.removeItem("targetedNote");
+            localStorage.removeItem("noteContent");
+            // move to the Notes page
+            router.push("/Notes");
+        }
+    };
+
     // Fonction pour extraire les mots clés du texte
     const handleExtractKeywords = (text: string): string => {
         const regex = /<strong>(.*?)<\/strong>/g;
@@ -166,18 +183,31 @@ const TakeNote = () => {
             <section className="flex justify-between items-center w-[90%] bg-green-600">
                 {/* Title Area */}
                 <div className="w-[40%] h-full bg-amber-400">
-                    <div className="h-fit border-b-gray-300 border-2 mb-2 w-1/2  rounded">TITRE DE LA NOTE</div>
+                    <div className="h-fit border-b-gray-300 border-2 mb-2 w-1/2  rounded">
+                        TITRE DE LA NOTE
+                    </div>
                     <div className="h-fit border-b-gray-300 border-2 rounded">
-                        {!isResume ? 
-                            "Ici, écris ta note et mets en gras les mots qui sont importants (mots-clés). tu peux utiliser le bouton de la barre d'outils pour mettre en gras." 
-                            : 
-                            "Ici, fais un résumé de ta note en réfléchissant aux connaissances de celle-ci."
-                        }
+                        {!isResume
+                            ? "Ici, écris ta note et mets en gras les mots qui sont importants (mots-clés). tu peux utiliser le bouton de la barre d'outils pour mettre en gras."
+                            : "Ici, fais un résumé de ta note en réfléchissant aux connaissances de celle-ci."}
                     </div>
                 </div>
 
                 {/* key words */}
-                {isResume && (
+                {/* {isResume && (
+                    <div className="w-[30%] max-w-3xl mb-6 border-amber-300 border-2 rounded-lg p-4">
+                        <p>{acctualNote?.keyWord || "No keywords available"}</p>
+                    </div>
+                )} */}
+
+                {!isResume ? (
+                    <div
+                        onClick={handleDelete}
+                        className="flex justify-center items-center cursor-pointer bg-red-600 rounded-2xl h-10 w-20"
+                    >
+                        Delete
+                    </div>
+                ) : (
                     <div className="w-[30%] max-w-3xl mb-6 border-amber-300 border-2 rounded-lg p-4">
                         <p>{acctualNote?.keyWord || "No keywords available"}</p>
                     </div>
