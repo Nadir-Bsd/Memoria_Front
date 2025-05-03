@@ -165,9 +165,15 @@ const TakeNote = () => {
             {/* Title Area */}
             <section className="flex justify-between items-center w-[90%] bg-green-600">
                 {/* Title Area */}
-                <div className="w-[30%] max-w-3xl mb-6">
-                    <div className="h-4 bg-gray-300 w-1/4 mb-2 rounded"></div>
-                    <div className="h-6 bg-gray-300 w-1/2 rounded"></div>
+                <div className="w-[30%] max-w-3xl mb-6 bg-amber-400">
+                    <div className="h-4 border-b-gray-300 border-2 mb-2 w-1/2  rounded">TITRE DE LA NOTE</div>
+                    <div className="h-6 border-b-gray-300 border-2 rounded">
+                        {!isResume ? 
+                            "Ici, écris ta note et mets en gras les mots qui sont importants (mots-clés)." 
+                            : 
+                            "Ici, fais un résumé de ta note en réfléchissant aux connaissances de celle-ci."
+                        }
+                    </div>
                 </div>
 
                 {/* key words */}
