@@ -15,7 +15,7 @@ class NotesService {
      * @returns La note créée
      * @throws Une erreur si la requête échoue  
      */
-    async createNote(Note: NotesState): Promise<NotesData>   {
+    async createNote(Note: NotesState) {
         try {
 
             const NotesData = {
@@ -54,7 +54,7 @@ class NotesService {
      * @param NotesData - L'objet NotesData contenant les données de la note
      * @returns la note mise à jour
      */
-    async updateNote(note: NotesData): Promise<NotesData> {
+    async updateNote(note: NotesData) {
         try {
 
             const response = await fetch(`${API_URL}/note/${note.id}`, {
