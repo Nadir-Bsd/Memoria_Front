@@ -78,6 +78,11 @@ const NotesPage = (): JSX.Element => {
                                             ? "un resume"
                                             : "pas de resume"}
                                     </span>
+
+                                    <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">
+                                        {note.title}
+                                    </span>
+
                                     <span className="bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-700">
                                         {note.keyWord?.slice(0, 10)}
                                         {note.keyWord?.length > 10 ? "..." : ""}

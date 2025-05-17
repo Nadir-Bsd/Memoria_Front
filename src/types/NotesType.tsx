@@ -1,5 +1,6 @@
 export interface Note {
     "@id": string;
+    title: string | null;
     text: string;
     resume: string | null;
     keyWord: string | null;
@@ -8,6 +9,7 @@ export interface Note {
 }
 
 export interface NotesState {
+    title: string | null;
     text: string;
     resume: string | null;
     keyWord: string | null;
@@ -17,6 +19,7 @@ export interface NotesState {
 
 export interface NotesData {
     id: string;
+    title: string | null;
     text: string;
     resume: string | null;
     keyWord: string | null;

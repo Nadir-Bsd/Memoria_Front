@@ -85,6 +85,7 @@ const TakeNote = () => {
             const keywords = handleExtractKeywords(content);
 
             const NotesData: NotesState = {
+                title: acctualNote?.title || null,
                 text: content,
                 resume: null,
                 keyWord: keywords || null,
@@ -110,6 +111,7 @@ const TakeNote = () => {
 
             const NotesData: NotesData = {
                 id: acctualNote["@id"].split("/").pop() as string,
+                title: acctualNote?.title || null,
                 text: isUpdate ? content : acctualNote.text,
                 resume: isResume ? content : acctualNote.resume || null,
                 keyWord: isUpdate ? keywords : acctualNote.keyWord || null,
@@ -126,6 +128,7 @@ const TakeNote = () => {
             }
 
             if (AcctualNoteData) {
+                console.log(AcctualNoteData);
                 setAcctualNote(AcctualNoteData);
             }
         }
@@ -183,9 +186,22 @@ const TakeNote = () => {
             <section className="flex justify-between items-center w-[90%] bg-green-600">
                 {/* Title Area */}
                 <div className="w-[40%] h-full bg-amber-400">
-                    <div className="h-fit border-b-gray-300 border-2 mb-2 w-1/2  rounded">
-                        TITRE DE LA NOTE
-                    </div>
+
+                    {/* faire quelque chose pour modifier le title et que je useEffect s'acctive */}
+                    <input
+                        type="text"
+                        value={acctualNote?.title || ""}
+                        onChange={(e) => {
+                            if (acctualNote) {
+                                setAcctualNote({
+                                    ...acctualNote,
+                                    title: e.target.value,
+                                });
+                            }
+                        }}
+                        className="border border-gray-300 rounded p-2 w-full"
+                    />
+
                     <div className="h-fit border-b-gray-300 border-2 rounded">
                         {!isResume
                             ? "Ici, écris ta note et mets en gras les mots qui sont importants (mots-clés). tu peux utiliser le bouton de la barre d'outils pour mettre en gras."
@@ -194,12 +210,6 @@ const TakeNote = () => {
                 </div>
 
                 {/* key words */}
-                {/* {isResume && (
-                    <div className="w-[30%] max-w-3xl mb-6 border-amber-300 border-2 rounded-lg p-4">
-                        <p>{acctualNote?.keyWord || "No keywords available"}</p>
-                    </div>
-                )} */}
-
                 {!isResume ? (
                     <div
                         onClick={handleDelete}
